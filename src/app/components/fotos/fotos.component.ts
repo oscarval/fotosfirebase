@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FileItem } from 'src/app/models/file-item';
+import { CargaImagenesService, Item } from 'src/app/services/carga-imagenes.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-fotos',
@@ -8,7 +11,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FotosComponent implements OnInit {
 
-  constructor() { }
+  public images: Observable<Item[]>;
+
+  constructor(private cargaImagenesServices: CargaImagenesService) {
+    this.images = this.cargaImagenesServices.getAllImages();
+  }
 
   ngOnInit(): void {
   }

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import *  as firebase from "firebase";
 import { Observable } from 'rxjs';
 import { FileItem } from '../models/file-item';
-import { isNgTemplate } from '@angular/compiler';
 
-
+export interface Item { name: string; url: string; }
 
 @Injectable({
   providedIn: 'root'
 })
 export class CargaImagenesService {
 
+  private itemsCollection: AngularFirestoreCollection<Item>;
   private CARPETA_IMAGENES = 'img';
 
   constructor(private db: AngularFirestore) { }
@@ -47,8 +47,14 @@ export class CargaImagenesService {
     }
   }
 
+  public getAllImages(): Observable<Item[]> {
+    this.itemsCollection = this.db.collection<Item>(this.CARPETA_IMAGENES);
+    return this.itemsCollection.valueChanges();
+  }
+
   private guardarImagen(image: { name: string, url: string }): void {
     this.db.collection(`/${this.CARPETA_IMAGENES}`)
       .add(image);
   }
+
 }

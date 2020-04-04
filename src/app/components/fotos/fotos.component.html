@@ -1,1 +1,8 @@
-<p>fotos works!</p>
+<div class="card-columns">
+  <div class="card" *ngFor="let file of images | async">
+    <img class="card-img-top" [src]="file.url" [alt]="file.name">
+    <div class="card-body">
+      <h5 class="card-title">{{ file.name }}</h5>
+    </div>
+  </div>
+</div>
